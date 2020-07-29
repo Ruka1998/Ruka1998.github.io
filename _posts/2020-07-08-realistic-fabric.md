@@ -4,7 +4,7 @@ tags: Unity Shader Fabric PBR
 key: realistic-fabric
 ---
 
-# 总的参数与大纲
+## 总的参数与大纲
 
 这次做了一个基本不会用上的东西，毕竟为了布料花上这么大的消耗不太划算，除非是暖暖一类的换装游戏。回到正题，之前做毕设的时候就在研究这个模型，但是当时不太行没有发现问题。参考的文献是[《A Practical Microcylinder Appearance Model for Cloth Rendering》](http://sadeghi.com/a-practical-microcylinder-appearance-model-for-cloth-rendering/)[^1]，还有[一篇博客](https://ushiostarfish.hatenablog.com/entry/2019/01/02/161716)。这篇博客相当详细的说明了他参照文献的实现过程，不过是在houdini里面模拟的。英文好日语好的可以去看看。
 
@@ -18,14 +18,14 @@ key: realistic-fabric
 可以发现，这个基于微圆柱体的模型的特点就是，经纬线的参数可以不同，使用不同的参数可以组合表现的范围很广，平织的、丝绸、生丝、天鹅绒都能模拟。
 
 参数主要有这几个，对于经线纬线各有一套，也就是一共两套：
-|参数                |意义                   |
-|---                |---                   |
-|Color              |颜色                   |
-|Alpha              |比例                   |
-|IOR                |折射率                 |
-|Glossiness         |光泽度                 |
-|Isotropy           |各向同性                |
-|TangentOffset      |织线弯曲的斜率，是一个数组 |
+|参数|意义|
+|---|---|
+|Color|颜色|
+|Alpha|比例|
+|IOR|折射率|
+|Glossiness|光泽度|
+|Isotropy|各向同性|
+|TangentOffset|织线弯曲的斜率，是一个数组|
 
 在unity的材质编辑器里面看起来是这样：
 
@@ -39,7 +39,7 @@ key: realistic-fabric
 
 以上是整体完成之后给出的大纲，下面说一下每个部分的细节。
 
-# Tangent Curve
+## Tangent Curve
 
 这个东西可以理解为织线弯曲的情况，这种弯曲是从侧面观察的。
 
@@ -81,7 +81,7 @@ rd.sharedMaterial = mAC;
 
 这样我们就能把需要的数据从脚本处理传到shader中。
 
-# 根据当前的Offset旋转法线和切线/负切线
+## 根据当前的Offset旋转法线和切线/负切线
 这一块没啥好说的，需要注意的是unity shader中没有我们需要的rotate函数，自己定义一个就好。
 
 ```c
@@ -112,7 +112,7 @@ half3 rotate(half3 v, half angle, half3 axis)
 half3 n = rotate(normal, tangent_offsets_u[i], v); //i是当前的循环值
 ```
 
-# 处理参数
+## 处理参数
 
 通过前面的一系列处理，目前的参数有：旋转后的法线、切线、负切线以及shader里面自行获取的光线和视线方向。为了匹配原文献中的数学公式，这里将参数转化一下：
 
@@ -169,7 +169,7 @@ void parameterize(half3 T, half3 B, half3 N, half3 L, half3 V, inout PARA p)
     
 ```
 
-# 计算bsdf
+## 计算bsdf
 
 原文献的bsdf分为了三个部分：
 - 微圆柱体的菲涅尔
@@ -216,7 +216,7 @@ half3 res = rv * input.color + half3(rs, rs, rs);
 res /= sqr(cos(p.thetaD));
 ```
 
-# 计算遮蔽阴影M和reweighting P
+## 计算遮蔽阴影M和reweighting P
 
 这两项的计算非常相似，所以放到一个函数里，区别是参数不同，M对应$\phi$，P对应$\psi$：
 
@@ -235,7 +235,7 @@ inline half microcylinder_MP(half cosI, half cosO, half d)
 half mValue = microcylinder_MP(p.cosPhiI, p.cosPhiO, p.phiD);
 half pValue = microcylinder_MP(p.cosPsiI, p.cosPsiO, p.psiD);
 ```
-# 最后
+## 最后
 我尝试了分别用vert和frag计算，的确frag的效果好上很多，但相机不可以开msaa，否则会出现很多破面（还不知道为什么）。
 
 这是文献里面生丝的渲染效果：
