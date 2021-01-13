@@ -1,8 +1,7 @@
 ---
 title: 在unity中实现基于PBR的丝绸材质
-tags: Unity Shader 布料 PBR
-key: silk-material-in-unity
-show: false
+tags: 材质
+mathjax: true
 ---
 
 丝绸的实现挺普遍的了，但是自己实际操作一遍之后还是会发现有些小细节需要注意的地方。
