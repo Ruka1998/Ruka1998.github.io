@@ -2,6 +2,7 @@
 title: 在unity中实现真实感布料
 tags: Unity Shader Fabric PBR
 key: realistic-fabric
+show: false
 ---
 
 ## 总的参数与大纲
