@@ -135,7 +135,6 @@ float3 F_Schlick(float3 f0, float VoH)
 - 数据结构
 
 在传入顶点着色器的appdata结构中添加法线和切线，unity就会将mesh中的对应信息传入。
-
 ```c
 struct appdata
 {
