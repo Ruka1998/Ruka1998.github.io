@@ -47,7 +47,7 @@ tags: 场景 工具 材质
 
 让地形的八层贴图都能支持调色，材质面板如下：
 
-![地形贴图面板](/assets/images/unity-terrain-tools/terrainMaterial.png)
+![地形材质面板](/assets/images/unity-terrain-tools/terrainMaterial.png)
 
 这个操作的重点在于，unity自己的terrain shader乍一看相当迷惑，除了前四张贴图的混合，后四张都是使用Add-Pass的
 
