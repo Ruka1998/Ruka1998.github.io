@@ -25,6 +25,7 @@ tags: 场景 工具 材质
     - `AdjustTerrain`函数中，在获取了宽高后加上`if (centerX < 0 || centerX >= width || centerY < 0 || centerY >= height) return;`，防止样条线超出地形的时候报错
 
 - **将所有功能集成到自己的面板** 这个Gui是放在Asset/Editor里面的
+
 ![样条线](/assets/images/unity-terrain-tools/splineToolGui.png)
 
 - **运行顺序的修改**：TerrainAdjusterRuntime里面的`pathCreator = GetComponent<PathCreator>();`需要放到`Awake`函数里，确保在Editor的`OnEnable`之前运行，其实这里如果不添加自己的工具面板是没问题的，因为脚本挂上去会让Runtime先于Editor运行，我这里使用自己写的工具面板挂脚本，就会出现问题，所以才要改顺序
@@ -36,13 +37,16 @@ tags: 场景 工具 材质
 ## 根据地形陡峭度铺贴图
 
 如题，这个功能[参考](https://alastaira.wordpress.com/2013/11/14/procedural-terrain-splatmapping/)。
+
 ![地形贴图](/assets/images/unity-terrain-tools/steepBasedTex.png)
+
 ![地形贴图面板](/assets/images/unity-terrain-tools/steepBasedTexEditor.png)
 
 
 # 材质
 
 让地形的八层贴图都能支持调色，材质面板如下：
+
 ![地形贴图面板](/assets/images/unity-terrain-tools/terrainMaterial.png)
 
 这个操作的重点在于，unity自己的terrain shader乍一看相当迷惑，除了前四张贴图的混合，后四张都是使用Add-Pass的
