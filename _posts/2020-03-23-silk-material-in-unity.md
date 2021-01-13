@@ -133,7 +133,9 @@ float3 F_Schlick(float3 f0, float VoH)
 在我写这篇博客的过程中，其实没有很正规的做金属度在漫反射和镜面反射之间的系数调节映射，这个我之后加上。为了使代码比较工整，我在Assets下面新建CGInclude文件夹，将以上BRDF的实现放在brdf.cginc文件里。
 
 - 数据结构
+
 在传入顶点着色器的appdata结构中添加法线和切线，unity就会将mesh中的对应信息传入。
+
 ```c
 struct appdata
 {
